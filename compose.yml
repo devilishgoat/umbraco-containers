@@ -1,0 +1,29 @@
+services:
+  app:
+    build: app
+    ports:
+      - "8080:80" 
+    environment:
+      - ConnectionStrings__umbracoDbDSN=TrustServerCertificate=True;server=sql, 1433;database=UmbracoDB;user id=${SQL_SA_USERNAME};password='${SQL_SA_PASSWORD}'
+    depends_on: 
+      sql-init:
+        condition: service_completed_successfully        
+  sql:
+    build: database
+    ports:
+      - "14333:1433"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U ${SQL_SA_USERNAME} -P ${SQL_SA_PASSWORD} -Q "SELECT 1" -b -o /dev/null
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - type: bind
+        source: .\data\database
+        target: /sqldata/
+  sql-init:
+    build: database-init
+    depends_on:
+      sql:
+        condition: service_healthy
