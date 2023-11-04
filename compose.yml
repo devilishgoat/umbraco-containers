@@ -1,6 +1,9 @@
 services:
   app:
     build: app
+    volumes:
+      - ./deploy/app/umbraco/:/output/umbraco
+      - ./deploy/app:/deploy/
     ports:
       - "8080:80" 
     environment:

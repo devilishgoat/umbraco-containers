@@ -1,3 +1,4 @@
 /app/src/.vs/
 /data/database/
 /.env
+/deploy/app/umbraco/
