@@ -4,6 +4,7 @@ services:
     volumes:
       - ./deploy/app/umbraco/:/output/umbraco
       - ./deploy/app:/deploy/
+      - ./app/src/serialization/v9:/output/uSync/v9
     ports:
       - "8080:80" 
     environment:
