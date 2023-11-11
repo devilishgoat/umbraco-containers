@@ -1,4 +1,10 @@
 services:
+  head:
+    build: head
+    environment:
+      - NEXT_PUBLIC_CMS_ENDPOINT=http://app
+    ports:
+      - "8081:3000"
   app:
     build: app
     volumes:
